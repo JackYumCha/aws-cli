@@ -9,7 +9,7 @@ ECHO AWS_DEFAULT_REGION=%AWS_DEFAULT_REGION%
 FOR /F "tokens=* USEBACKQ" %%F IN (`call aws sts get-caller-identity --profile %profile% --output text`) DO ( SET identity=%%F )
 FOR /F "tokens=1" %%F IN ("%identity%") DO ( SET AWS_ACCOUNT_ID=%%F )
 FOR /F "tokens=2" %%F IN ("%identity%") DO ( SET UserArn=%%F )
-SET MfaArn=%UserArn:user=mfa%
+SET MfaArn=%UserArn::user/=:mfa/%
 FOR /F "tokens=* USEBACKQ" %%F IN (`call aws configure get aws_access_key_id --profile %profile%`) DO ( SET AWS_ACCESS_KEY_ID=%%F )
 ECHO AWS_ACCESS_KEY_ID=%AWS_ACCESS_KEY_ID%
 FOR /F "tokens=* USEBACKQ" %%F IN (`call aws configure get aws_secret_access_key --profile %profile%`) DO ( SET AWS_SECRET_ACCESS_KEY=%%F )
