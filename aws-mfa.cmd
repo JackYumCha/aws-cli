@@ -6,7 +6,7 @@ IF "%SessionDuration%"=="" (SET SessionDuration=86400)
 ECHO SessionDuration=%SessionDuration%
 FOR /F "tokens=* USEBACKQ" %%F IN (`call aws configure get region --profile %profile%`) DO ( SET AWS_DEFAULT_REGION=%%F )
 ECHO AWS_DEFAULT_REGION=%AWS_DEFAULT_REGION%
-FOR /F "tokens=* USEBACKQ" %%F IN (`call aws sts get-caller-identity --profile %profile% --output text`) DO ( SET identity=%%F )
+FOR /F "tokens=* USEBACKQ" %%F IN (`call aws sts get-caller-identity --profile %profile% --region %AWS_DEFAULT_REGION% --output text`) DO ( SET identity=%%F )
 FOR /F "tokens=1" %%F IN ("%identity%") DO ( SET AWS_ACCOUNT_ID=%%F )
 FOR /F "tokens=2" %%F IN ("%identity%") DO ( SET UserArn=%%F )
 SET MfaArn=%UserArn::user/=:mfa/%
